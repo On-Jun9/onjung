@@ -45,6 +45,7 @@ func setRuntimeConfig(profile string) {
 	viper.SetDefault("Server.SessionTimeOut", 600)
 	viper.SetDefault("Server.DBLogLevel", 2)     //ERROR
 	viper.SetDefault("Server.ServerLogLevel", 2) //ERROR
+	viper.SetDefault("Datasource.SslMode", "prefer")
 
 	err := viper.ReadInConfig()
 	if err != nil {
@@ -163,11 +164,11 @@ func setupRouter() *gin.Engine {
 	}
 	r.StaticFS("/static", http.FS(staticFS))
 
-	// DB 연결-> 전역변수 생성
-	//err = config.ConnectDatabase()
-	//if err != nil {
-	//	panic(err)
-	//}
+	//DB 연결-> 전역변수 생성
+	err = config.ConnectDatabase()
+	if err != nil {
+		panic(err)
+	}
 
 	//세션 설정
 	key := make([]byte, 66)
