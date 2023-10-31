@@ -6,6 +6,7 @@ import (
 	"encoding/hex"
 	"fmt"
 	"github.com/On-Jun9/onjung/config"
+	"github.com/On-Jun9/onjung/utils"
 	"github.com/fsnotify/fsnotify"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/memstore"
@@ -22,6 +23,8 @@ import (
 func init() {
 	//설정 yaml 파일 세팅
 	profile := "secrets"
+	setRuntimeConfig(profile)
+	profile = "properties"
 	setRuntimeConfig(profile)
 }
 
@@ -40,6 +43,8 @@ func setRuntimeConfig(profile string) {
 	// 기본값을 설정합니다.
 	viper.SetDefault("Server.Port", 8080)
 	viper.SetDefault("Server.SessionTimeOut", 600)
+	viper.SetDefault("Server.DBLogLevel", 2)     //ERROR
+	viper.SetDefault("Server.ServerLogLevel", 2) //ERROR
 
 	err := viper.ReadInConfig()
 	if err != nil {
@@ -129,6 +134,13 @@ func registerRoutes(r *gin.Engine) {
 	gin Router 세팅
 */
 func setupRouter() *gin.Engine {
+
+	// gin mode 설정
+	ginMode := "release"
+	if utils.IsInSlice(config.RuntimeConf.Server.Mode, []string{"debug", "release", "test"}) {
+		ginMode = config.RuntimeConf.Server.Mode
+	}
+	gin.SetMode(ginMode)
 
 	// gin 생성, 세팅 합니다.
 	r := gin.Default()
