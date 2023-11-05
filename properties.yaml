@@ -1,0 +1,43 @@
+#   properties.yaml
+#
+#   서버설정, 서버 변수 설정 파일입니다.
+#
+
+# Server
+Server:                   # 서버 설정
+
+  # GinMode (default release)
+  #
+  #   debug
+  #   release
+  #   test
+  #
+  Mode: "debug"
+  Port: 8080                  # Port (default 8080)
+  SessionTimeOut: 100000000   # 세션 타임아웃 시간 (초) (default 600)
+
+  # DBLogLevel (default 2)
+  #
+  #   Silent = 1
+  #   Error = 2
+  #   Warn = 3
+  #   Info = 4
+  #
+  DBLogLevel: 4
+
+  # ServerLogLevel (default 2)
+  #
+  #   PanicLevel = 0
+  #   FatalLevel = 1
+  #   ErrorLevel = 2
+  #   WarnLevel = 3
+  #   InfoLevel = 4
+  #   DebugLevel = 5
+  #   TraceLevel = 6
+  #
+  ServerLogLevel: 4
+
+
+# Variables 변수 설정 ( 이 값들은 서버 재부팅 없이 적용 됩니다.)
+Variables:
+
